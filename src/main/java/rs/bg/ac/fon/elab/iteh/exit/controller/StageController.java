@@ -18,18 +18,18 @@ public class StageController {
         return List.of();
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public Stage addNewStage(@RequestBody Stage newStage){
         return null;
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public Stage updateStage(@PathVariable Long id,
                              @RequestBody Stage newStage){
         return null;
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public Stage deleteStage(@PathVariable Long id){
         return null;
     }

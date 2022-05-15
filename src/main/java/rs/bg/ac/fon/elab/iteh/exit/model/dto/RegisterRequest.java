@@ -3,9 +3,10 @@ package rs.bg.ac.fon.elab.iteh.exit.model.dto;
 import lombok.Data;
 
 @Data
-public class UserRegisterDto {
+public class RegisterRequest {
     private String name;
     private String password;
+    private String username;
     private String email;
-    private String role;
+//    private String role;
 }
