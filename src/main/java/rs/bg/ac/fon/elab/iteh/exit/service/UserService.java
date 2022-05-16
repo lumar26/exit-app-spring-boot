@@ -30,4 +30,12 @@ public class UserService implements UserDetailsService {
         optionalUser.get().getRole();
         return optionalUser.get();
     }
+
+    public User loadUserById(Long id) throws Exception {
+        Optional<User> optionalUser = userRepository.findById(id);
+        if (optionalUser.isEmpty())
+            throw new Exception("User with id = " + id + " does not exist.");
+        optionalUser.get().getRole();
+        return optionalUser.get();
+    }
 }
