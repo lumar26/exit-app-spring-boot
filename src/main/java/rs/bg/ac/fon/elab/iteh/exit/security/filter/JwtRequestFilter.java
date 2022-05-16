@@ -1,4 +1,4 @@
-package rs.bg.ac.fon.elab.iteh.exit.security;
+package rs.bg.ac.fon.elab.iteh.exit.security.filter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

@@ -9,6 +9,7 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -20,9 +21,8 @@ import java.util.Collection;
 @AllArgsConstructor
 public class User implements UserDetails {
 
-
     public enum UserRole {
-        ADMIN, USER
+        ROLE_ADMIN, ROLE_USER
     }
 
     @Id
@@ -40,21 +40,11 @@ public class User implements UserDetails {
     @Column(name = "updated_at")
     private Timestamp updatedAt;
 
-    public User(String name, String password, String username, String email, UserRole role,
-                Timestamp createdAt, Timestamp emailVerifiedAt, Timestamp updatedAt) {
-        this.name = name;
-        this.password = password;
-        this.username = username;
-        this.email = email;
-        this.role = role;
-        this.createdAt = createdAt;
-        this.emailVerifiedAt = emailVerifiedAt;
-        this.updatedAt = updatedAt;
-    }
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return new ArrayList<>();
+        if (role.equals(UserRole.ROLE_ADMIN))
+            return List.of((GrantedAuthority) () -> "ROLE_ADMIN");
+        return List.of((GrantedAuthority) () -> "ROLE_USER");
     }
 
     @Override

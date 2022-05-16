@@ -1,5 +1,6 @@
 package rs.bg.ac.fon.elab.iteh.exit.service;
 
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -8,8 +9,6 @@ import org.springframework.stereotype.Service;
 import rs.bg.ac.fon.elab.iteh.exit.model.User;
 import rs.bg.ac.fon.elab.iteh.exit.repository.UserRepository;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -22,12 +21,13 @@ public class UserService implements UserDetailsService {
         this.userRepository = userRepository;
     }
 
+    @SneakyThrows
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<User> optionalUser = userRepository.findUserByUsername(username);
         if (optionalUser.isEmpty())
-            return new User("Luka Marinkovic", "luka", "luka", "luka@gmail.com", User.UserRole.ADMIN,
-                    Timestamp.valueOf(LocalDateTime.now()), Timestamp.valueOf(LocalDateTime.now()), Timestamp.valueOf(LocalDateTime.now()));
+            throw new Exception("User with username = " + username + " does not exist.");
+        optionalUser.get().getRole();
         return optionalUser.get();
     }
 }
