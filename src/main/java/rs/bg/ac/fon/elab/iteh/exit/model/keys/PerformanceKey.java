@@ -8,10 +8,8 @@ import java.io.Serializable;
 
 @Embeddable
 @Getter
-@Setter
 @NoArgsConstructor
 @EqualsAndHashCode
-@ToString
 @AllArgsConstructor
 public class PerformanceKey implements Serializable {
     @Column(name = "event_id")

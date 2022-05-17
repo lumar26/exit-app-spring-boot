@@ -30,6 +30,10 @@ public class PerformerService {
         return repository.findAll();
     }
 
+    public List<Performer> getAllPerformersByIds(List<Long> ids) {
+        return repository.findAllById(ids);
+    }
+
     public Performer saveNewPerformer(Performer newPerformer) {
 //        moguce nakon uspesne autentifikacije
         newPerformer.getUser().setRole(User.UserRole.ROLE_ADMIN);

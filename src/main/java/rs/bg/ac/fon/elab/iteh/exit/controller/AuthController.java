@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import rs.bg.ac.fon.elab.iteh.exit.model.dto.AuthenticationResponse;
-import rs.bg.ac.fon.elab.iteh.exit.model.dto.LoginRequest;
-import rs.bg.ac.fon.elab.iteh.exit.model.dto.RegisterRequest;
+import rs.bg.ac.fon.elab.iteh.exit.dto.AuthenticationResponse;
+import rs.bg.ac.fon.elab.iteh.exit.dto.LoginRequest;
+import rs.bg.ac.fon.elab.iteh.exit.dto.RegisterRequest;
 import rs.bg.ac.fon.elab.iteh.exit.service.UserService;
 import rs.bg.ac.fon.elab.iteh.exit.security.util.JwtUtil;
 

@@ -6,16 +6,19 @@ import rs.bg.ac.fon.elab.iteh.exit.model.Event;
 import rs.bg.ac.fon.elab.iteh.exit.model.User;
 import rs.bg.ac.fon.elab.iteh.exit.repository.EventRepository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class EventService {
     private final EventRepository repository;
+    private final PerformanceService performanceService;
 
     @Autowired
-    public EventService(EventRepository repository) {
+    public EventService(EventRepository repository, PerformanceService performanceService) {
         this.repository = repository;
+        this.performanceService = performanceService;
     }
 
     public Event getEventById(Long id) throws Exception {
@@ -29,10 +32,11 @@ public class EventService {
         return repository.findAll();
     }
 
-    public Event saveNewEvent(Event newEvent) {
+    public Event saveNewEvent(Event newEvent) throws Exception {
         return repository.save(newEvent);
     }
 
+    @Transactional
     public Event updateEvent(Long id, Event newEvent) throws Exception {
         Optional<Event> optionalStage = repository.findById(id);
         if (optionalStage.isEmpty())
@@ -43,6 +47,7 @@ public class EventService {
         return repository.save(newEvent);
     }
 
+    @Transactional
     public Event deleteEventById(Long id) throws Exception {
         Optional<Event> optionalStage = repository.findById(id);
         if (optionalStage.isEmpty())

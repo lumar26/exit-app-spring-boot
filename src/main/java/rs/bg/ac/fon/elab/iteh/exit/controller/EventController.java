@@ -4,14 +4,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import rs.bg.ac.fon.elab.iteh.exit.dto.CreateEventDto;
+import rs.bg.ac.fon.elab.iteh.exit.mapper.EventMapper;
 import rs.bg.ac.fon.elab.iteh.exit.model.Event;
+import rs.bg.ac.fon.elab.iteh.exit.model.Performer;
 import rs.bg.ac.fon.elab.iteh.exit.model.Stage;
 import rs.bg.ac.fon.elab.iteh.exit.model.User;
-import rs.bg.ac.fon.elab.iteh.exit.service.EventService;
-import rs.bg.ac.fon.elab.iteh.exit.service.PerformerService;
-import rs.bg.ac.fon.elab.iteh.exit.service.StageService;
-import rs.bg.ac.fon.elab.iteh.exit.service.UserService;
+import rs.bg.ac.fon.elab.iteh.exit.service.*;
 
+import javax.transaction.Transactional;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -21,13 +23,15 @@ public class EventController {
     private final PerformerService performerService;
     private final StageService stageService;
     private final UserService userService;
+    private final PerformanceService performanceService;
 
     @Autowired
-    public EventController(EventService eventService, PerformerService performerService, StageService stageService, UserService userService) {
+    public EventController(EventService eventService, PerformerService performerService, StageService stageService, UserService userService, PerformanceService performanceService) {
         this.eventService = eventService;
         this.performerService = performerService;
         this.stageService = stageService;
         this.userService = userService;
+        this.performanceService = performanceService;
     }
 
     @GetMapping("{id}")
@@ -45,16 +49,20 @@ public class EventController {
     }
 
     @PostMapping
-    public ResponseEntity<?> addNewEvent(@RequestBody Event newEvent){
+    @Transactional
+    public ResponseEntity<?> addNewEvent(@RequestBody CreateEventDto dto){
         try {
-            User user = userService.loadUserById(newEvent.getUser().getId());
-            Stage stage = stageService.getByStageId(newEvent.getStage().getId());
-            newEvent.setStage(stage);
-            newEvent.setUser(user);
-//            todo: check if performers exist and handle them
-            return ResponseEntity.ok(eventService.saveNewEvent(newEvent));
-
+            User user = userService.loadUserById(dto.getUserId());
+            Stage stage = stageService.getByStageId(dto.getStageId());
+//            converting from dto
+            Event newEvent = EventMapper.toEntity(dto, stage, user);
+            Event savedEvent = eventService.saveNewEvent(newEvent);
+//            adding performers to event
+            List<Performer> performersOnEvent = performerService.getAllPerformersByIds(Arrays.asList(dto.getPerformersIds()));
+            performanceService.savePerformancesForEvent(performersOnEvent, newEvent);
+            return ResponseEntity.ok(savedEvent);
         } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
 

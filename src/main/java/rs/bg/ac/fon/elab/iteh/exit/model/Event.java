@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "events")
@@ -22,7 +23,6 @@ public class Event {
     private LocalDate start;
     private String image;
 
-
     @ManyToOne
     @JoinColumn(name = "stage_id")
     private Stage stage;
@@ -30,4 +30,10 @@ public class Event {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    public Event(String name, LocalDate start, String image) {
+        this.name = name;
+        this.start = start;
+        this.image = image;
+    }
 }
