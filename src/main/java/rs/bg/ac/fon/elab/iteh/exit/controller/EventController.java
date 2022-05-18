@@ -12,7 +12,6 @@ import rs.bg.ac.fon.elab.iteh.exit.model.Stage;
 import rs.bg.ac.fon.elab.iteh.exit.model.User;
 import rs.bg.ac.fon.elab.iteh.exit.service.*;
 
-import javax.transaction.Transactional;
 import java.util.Arrays;
 import java.util.List;
 
@@ -49,7 +48,6 @@ public class EventController {
     }
 
     @PostMapping
-    @Transactional
     public ResponseEntity<?> addNewEvent(@RequestBody CreateEventDto dto){
         try {
             User user = userService.loadUserById(dto.getUserId());
@@ -70,13 +68,18 @@ public class EventController {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateEvent(@PathVariable Long id,
-                             @RequestBody Event newEvent){
+                             @RequestBody CreateEventDto dto){
         try {
-            User user = userService.loadUserById(newEvent.getUser().getId());
-            Stage stage = stageService.getByStageId(newEvent.getStage().getId());
-            newEvent.setStage(stage);
-            newEvent.setUser(user);
-            return ResponseEntity.ok(eventService.updateEvent(id, newEvent));
+            User user = userService.loadUserById(dto.getUserId());
+            Stage stage = stageService.getByStageId(dto.getStageId());
+//            converting from dto
+            Event newEvent = EventMapper.toEntity(dto, stage, user);
+            Event updatedEvent = eventService.updateEvent(id, newEvent);
+            //            adding performers to event
+//            performers can be empty list
+            List<Performer> performersOnEvent = performerService.getAllPerformersByIds(Arrays.asList(dto.getPerformersIds()));
+            performanceService.updatePerformancesForEvent(performersOnEvent, updatedEvent);
+            return ResponseEntity.ok(updatedEvent);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }

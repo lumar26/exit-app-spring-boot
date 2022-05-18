@@ -7,7 +7,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -42,9 +41,8 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if (role.equals(UserRole.ROLE_ADMIN))
-            return List.of((GrantedAuthority) () -> "ROLE_ADMIN");
-        return List.of((GrantedAuthority) () -> "ROLE_USER");
+//        this is possible because GrantedAuthority can be interpreted as String
+        return List.of((GrantedAuthority) () -> role.name());
     }
 
     @Override

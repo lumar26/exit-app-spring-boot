@@ -32,14 +32,15 @@ public class EventService {
         return repository.findAll();
     }
 
+    @Transactional
     public Event saveNewEvent(Event newEvent) throws Exception {
         return repository.save(newEvent);
     }
 
     @Transactional
     public Event updateEvent(Long id, Event newEvent) throws Exception {
-        Optional<Event> optionalStage = repository.findById(id);
-        if (optionalStage.isEmpty())
+        Optional<Event> optionalEvent = repository.findById(id);
+        if (optionalEvent.isEmpty())
             throw new Exception("Cannot update event. Event with id = " + id + "does not exist");
         newEvent.setId(id);
 //        ovo smemo da uradimo jer je jwt token vec proveren od strane Spring Security

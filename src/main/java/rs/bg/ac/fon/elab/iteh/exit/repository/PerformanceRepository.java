@@ -7,4 +7,5 @@ import rs.bg.ac.fon.elab.iteh.exit.model.keys.PerformanceKey;
 
 @Repository
 public interface PerformanceRepository extends JpaRepository<Performance, PerformanceKey> {
+    void deleteAllByEvent_Id(Long eventId);
 }

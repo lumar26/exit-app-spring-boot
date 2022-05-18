@@ -3,10 +3,10 @@ package rs.bg.ac.fon.elab.iteh.exit.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import rs.bg.ac.fon.elab.iteh.exit.model.Performer;
-import rs.bg.ac.fon.elab.iteh.exit.model.Stage;
 import rs.bg.ac.fon.elab.iteh.exit.model.User;
 import rs.bg.ac.fon.elab.iteh.exit.repository.PerformerRepository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,12 +34,14 @@ public class PerformerService {
         return repository.findAllById(ids);
     }
 
+    @Transactional
     public Performer saveNewPerformer(Performer newPerformer) {
 //        moguce nakon uspesne autentifikacije
         newPerformer.getUser().setRole(User.UserRole.ROLE_ADMIN);
         return repository.save(newPerformer);
     }
 
+    @Transactional
     public Performer updatePerformer(Long id, Performer newPerformer) throws Exception {
         Optional<Performer> optionalStage = repository.findById(id);
         if (optionalStage.isEmpty())
@@ -50,6 +52,7 @@ public class PerformerService {
         return repository.save(newPerformer);
     }
 
+    @Transactional
     public Performer deletePerformerById(Long id) throws Exception {
         Optional<Performer> optionalStage = repository.findById(id);
         if (optionalStage.isEmpty())

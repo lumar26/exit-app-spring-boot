@@ -34,4 +34,15 @@ public class PerformanceService {
         });
         return result;
     }
+
+    @Transactional
+    public void updatePerformancesForEvent(List<Performer> performersOnEvent, Event updatedEvent) {
+//        since new event has same id as old event, we will use it to remove existing performances
+        repository.deleteAllByEvent_Id(updatedEvent.getId());
+//        now we can add new performers
+        performersOnEvent.forEach(performer -> {
+            Performance performance  = new Performance(updatedEvent, performer, Timestamp.valueOf(LocalDateTime.now()));
+            repository.save(performance);
+        });
+    }
 }
