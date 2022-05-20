@@ -8,6 +8,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/performance")
+@CrossOrigin(origins = "*",
+        methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE, RequestMethod.OPTIONS})
 public class PerformanceController {
     @GetMapping("{id}")
     public Performance getPerformanceById(@PathVariable Long id){

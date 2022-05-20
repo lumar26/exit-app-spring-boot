@@ -9,8 +9,12 @@ import rs.bg.ac.fon.elab.iteh.exit.service.PerformerService;
 
 import java.util.List;
 
+import static org.springframework.web.bind.annotation.RequestMethod.*;
+
 @RestController
 @RequestMapping("/api/performers")
+@CrossOrigin(origins = "*",
+        methods = {GET, POST, PUT, DELETE, OPTIONS})
 public class PerformerController {
 
     private final PerformerService performerService;
@@ -30,8 +34,8 @@ public class PerformerController {
     }
 
     @GetMapping
-    public List<Performer> getAllPerformers(){
-        return performerService.getAllPerformers();
+    public ResponseEntity<List<Performer>> getAllPerformers(){
+        return ResponseEntity.ok(performerService.getAllPerformers());
     }
 
     @PostMapping

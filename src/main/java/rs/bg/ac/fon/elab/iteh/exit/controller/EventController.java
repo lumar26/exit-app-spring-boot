@@ -17,6 +17,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/events")
+@CrossOrigin(origins = "*",
+        methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE, RequestMethod.OPTIONS})
 public class EventController {
     private final EventService eventService;
     private final PerformerService performerService;
@@ -43,8 +45,8 @@ public class EventController {
     }
 
     @GetMapping
-    public List<Event> getAllEvent(){
-        return eventService.getAllEvents();
+    public ResponseEntity<List<Event>> getAllEvents(){
+        return ResponseEntity.ok(eventService.getAllEvents());
     }
 
     @PostMapping

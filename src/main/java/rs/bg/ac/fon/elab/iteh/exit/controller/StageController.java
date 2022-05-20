@@ -9,8 +9,12 @@ import rs.bg.ac.fon.elab.iteh.exit.service.StageService;
 
 import java.util.List;
 
+import static org.springframework.web.bind.annotation.RequestMethod.*;
+
 @RestController
 @RequestMapping("/api/stages")
+@CrossOrigin(origins = "*",
+        methods = {GET, POST, PUT, DELETE, OPTIONS})
 public class StageController {
 
     public final StageService stageService;
@@ -20,7 +24,7 @@ public class StageController {
         this.stageService = stageService;
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<?> getStageById(@PathVariable Long id) {
         try {
             return ResponseEntity.ok(stageService.getByStageId(id));
@@ -35,12 +39,12 @@ public class StageController {
         return ResponseEntity.ok(stageService.getAllStages());
     }
 
-    @PostMapping("/add")
+    @PostMapping()
     public Stage addNewStage(@RequestBody Stage newStage) {
         return stageService.addNewStage(newStage);
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<?> updateStage(@PathVariable Long id,
                                          @RequestBody Stage newStage) {
         try {
@@ -50,7 +54,7 @@ public class StageController {
         }
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteStage(@PathVariable Long id) {
         try {
             return ResponseEntity.ok(stageService.deleteStageById(id));

@@ -23,7 +23,7 @@ public class UserService implements UserDetailsService {
 
     @SneakyThrows
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public User loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<User> optionalUser = userRepository.findUserByUsername(username);
         if (optionalUser.isEmpty())
             throw new Exception("User with username = " + username + " does not exist.");

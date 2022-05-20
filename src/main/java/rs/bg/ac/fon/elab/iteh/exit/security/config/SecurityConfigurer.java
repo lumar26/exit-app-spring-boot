@@ -2,6 +2,7 @@ package rs.bg.ac.fon.elab.iteh.exit.security.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -39,17 +40,27 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.csrf().disable()
+        httpSecurity
+                .cors().and()
+                .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/auth/**").permitAll()
-                .antMatchers("/api/**").access("hasRole('ROLE_ADMIN')")
+                .antMatchers(HttpMethod.GET, "/api/**").permitAll()
+                .antMatchers(HttpMethod.DELETE, "/api/**").access("hasRole('ROLE_ADMIN')")
+                .antMatchers(HttpMethod.POST, "/api/**").access("hasRole('ROLE_ADMIN')")
+                .antMatchers(HttpMethod.PUT, "/api/**").access("hasRole('ROLE_ADMIN')")
+                .antMatchers(HttpMethod.PATCH, "/api/**").access("hasRole('ROLE_ADMIN')")
+//                .antMatchers("/api/**").permitAll()
                 .anyRequest().authenticated().and().
                 exceptionHandling()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
+
     }
+
+
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {

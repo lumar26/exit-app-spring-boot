@@ -7,6 +7,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/tickets")
+@CrossOrigin(origins = "*",
+        methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE, RequestMethod.OPTIONS})
 public class TicketController {
     @GetMapping("{id}")
     public Ticket getTicketById(@PathVariable Long id){
