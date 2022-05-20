@@ -45,4 +45,8 @@ public class PerformanceService {
             repository.save(performance);
         });
     }
+
+    public List<Performance> getAllPerformancesOfEvent(Long eventId){
+        return repository.getAllByEvent_Id(eventId);
+    }
 }

@@ -19,6 +19,7 @@ public class Ticket {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private double price;
+    private String description;
     @Column(name = "purchase_date")
     private LocalDate purchaseDate;
     private double discount;

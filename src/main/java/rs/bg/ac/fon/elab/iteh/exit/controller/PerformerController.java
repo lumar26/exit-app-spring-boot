@@ -4,10 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import rs.bg.ac.fon.elab.iteh.exit.model.Performance;
 import rs.bg.ac.fon.elab.iteh.exit.model.Performer;
+import rs.bg.ac.fon.elab.iteh.exit.service.PerformanceService;
 import rs.bg.ac.fon.elab.iteh.exit.service.PerformerService;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 
@@ -18,10 +21,12 @@ import static org.springframework.web.bind.annotation.RequestMethod.*;
 public class PerformerController {
 
     private final PerformerService performerService;
+    private final PerformanceService performanceService;
 
     @Autowired
-    public PerformerController(PerformerService performerService) {
+    public PerformerController(PerformerService performerService, PerformanceService performanceService) {
         this.performerService = performerService;
+        this.performanceService = performanceService;
     }
 
     @GetMapping("{id}")
@@ -36,6 +41,13 @@ public class PerformerController {
     @GetMapping
     public ResponseEntity<List<Performer>> getAllPerformers(){
         return ResponseEntity.ok(performerService.getAllPerformers());
+    }
+
+    @GetMapping("/event/{event}")
+    public ResponseEntity<List<Performer>> getAllPerformersOfEvent(@PathVariable("event") Long eventId){
+        List<Performance> performances = performanceService.getAllPerformancesOfEvent(eventId);
+        List<Performer> result = performances.stream().map(Performance::getPerformer).collect(Collectors.toList());
+        return ResponseEntity.ok(result);
     }
 
     @PostMapping
@@ -61,4 +73,6 @@ public class PerformerController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
+
+
 }
