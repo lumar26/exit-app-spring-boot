@@ -1,6 +1,7 @@
 package rs.bg.ac.fon.elab.iteh.exit.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -51,8 +52,16 @@ public class AuthController {
 
     @PostMapping("/register")
     @CrossOrigin(origins = "http://localhost:8100")
-    public AuthenticationResponse register(@RequestBody RegisterRequest user) {
-        return null;
+    public ResponseEntity<?> register(@RequestBody RegisterRequest registerRequest) {
+        User user = null;
+        try {
+            user = userService.registerUser(registerRequest);
+            return ResponseEntity.ok(new AuthenticationResponse(user.getId(), user.getUsername(), jwtUtil.generateToken(user), user.getRole().name()));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body(e.getMessage());
+        }
+
     }
 
 }

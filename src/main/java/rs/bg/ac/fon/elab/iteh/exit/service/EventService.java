@@ -44,7 +44,7 @@ public class EventService {
             throw new Exception("Cannot update event. Event with id = " + id + "does not exist");
         newEvent.setId(id);
 //        ovo smemo da uradimo jer je jwt token vec proveren od strane Spring Security
-        newEvent.getUser().setRole(User.UserRole.ROLE_ADMIN);
+        newEvent.getUser().setRole(User.Role.ROLE_ADMIN);
         return repository.save(newEvent);
     }
 

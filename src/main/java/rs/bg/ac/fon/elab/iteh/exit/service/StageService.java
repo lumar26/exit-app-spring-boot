@@ -30,7 +30,7 @@ public class StageService {
 
     public Stage addNewStage(Stage newStage) {
 //        ovo smemo da uradimo jer je jwt token vec proveren od strane Spring Security
-        newStage.getUser().setRole(User.UserRole.ROLE_ADMIN);
+        newStage.getUser().setRole(User.Role.ROLE_ADMIN);
         return stageRepository.save(newStage);
     }
 
@@ -40,7 +40,7 @@ public class StageService {
             throw new Exception("Cannot update stage. Stage with id = " + id + "does not exist");
         newStage.setId(id);
 //        ovo smemo da uradimo jer je jwt token vec proveren od strane Spring Security
-        newStage.getUser().setRole(User.UserRole.ROLE_ADMIN);
+        newStage.getUser().setRole(User.Role.ROLE_ADMIN);
         return stageRepository.save(newStage); // todo: check if this is possible
     }
 

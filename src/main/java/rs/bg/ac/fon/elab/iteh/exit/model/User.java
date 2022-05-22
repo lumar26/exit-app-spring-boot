@@ -20,7 +20,7 @@ import java.util.List;
 @AllArgsConstructor
 public class User implements UserDetails {
 
-    public enum UserRole {
+    public enum Role {
         ROLE_ADMIN, ROLE_USER
     }
 
@@ -31,7 +31,7 @@ public class User implements UserDetails {
     private String password;
     private String username;
     private String email;
-    private UserRole role;
+    private Role role;
     @Column(name = "created_at")
     private Timestamp createdAt;
     @Column(name = "email_verified_at")

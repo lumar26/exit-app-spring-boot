@@ -37,7 +37,7 @@ public class PerformerService {
     @Transactional
     public Performer saveNewPerformer(Performer newPerformer) {
 //        moguce nakon uspesne autentifikacije
-        newPerformer.getUser().setRole(User.UserRole.ROLE_ADMIN);
+        newPerformer.getUser().setRole(User.Role.ROLE_ADMIN);
         return repository.save(newPerformer);
     }
 
@@ -48,7 +48,7 @@ public class PerformerService {
             throw new Exception("Cannot update performer. Performer with id = " + id + "does not exist");
         newPerformer.setId(id);
 //        ovo smemo da uradimo jer je jwt token vec proveren od strane Spring Security
-        newPerformer.getUser().setRole(User.UserRole.ROLE_ADMIN);
+        newPerformer.getUser().setRole(User.Role.ROLE_ADMIN);
         return repository.save(newPerformer);
     }
 
