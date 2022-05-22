@@ -19,4 +19,13 @@ public class Comment {
     private Long id;
     private int rate;
     private String content;
+
+    @ManyToOne
+    @JoinColumn(name = "event_id")
+    private Event event;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
 }

@@ -47,6 +47,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
                 .antMatchers("/auth/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/tickets/**").access("hasRole('ROLE_USER')")
+                .antMatchers(HttpMethod.POST, "/api/comments/**").access("hasRole('ROLE_USER')")
                 .antMatchers(HttpMethod.DELETE, "/api/**").access("hasRole('ROLE_ADMIN')")
                 .antMatchers(HttpMethod.POST, "/api/**").access("hasRole('ROLE_ADMIN')")
                 .antMatchers(HttpMethod.PUT, "/api/**").access("hasRole('ROLE_ADMIN')")
