@@ -10,8 +10,12 @@ import rs.bg.ac.fon.elab.iteh.exit.service.CommentService;
 import rs.bg.ac.fon.elab.iteh.exit.service.EventService;
 import rs.bg.ac.fon.elab.iteh.exit.service.UserService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/comments")
+@CrossOrigin(origins = "*",
+        methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE, RequestMethod.OPTIONS})
 public class CommentController {
     private final CommentService commentService;
     private final UserService userService;
@@ -31,6 +35,11 @@ public class CommentController {
             e.printStackTrace();
             return ResponseEntity.status(400).body(e.getMessage());
         }
+    }
+
+    @GetMapping
+    public List<Comment> getAllComments(){
+        return commentService.getAllComments();
     }
 
     @PostMapping

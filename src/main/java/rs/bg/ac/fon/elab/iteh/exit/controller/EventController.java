@@ -36,21 +36,21 @@ public class EventController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<?> getEventById(@PathVariable Long id){
+    public ResponseEntity<?> getEventById(@PathVariable Long id) {
         try {
             return ResponseEntity.ok(eventService.getEventById(id));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Could not retrieve event with id = " + id + ". \n" + e.getMessage());
         }
     }
 
     @GetMapping
-    public ResponseEntity<List<Event>> getAllEvents(){
+    public ResponseEntity<List<Event>> getAllEvents() {
         return ResponseEntity.ok(eventService.getAllEvents());
     }
 
     @PostMapping
-    public ResponseEntity<?> addNewEvent(@RequestBody CreateEventDto dto){
+    public ResponseEntity<?> addNewEvent(@RequestBody CreateEventDto dto) {
         try {
             User user = userService.loadUserById(dto.getUserId());
             Stage stage = stageService.getByStageId(dto.getStageId());
@@ -63,14 +63,14 @@ public class EventController {
             return ResponseEntity.ok(savedEvent);
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Could not add new event. \n" + e.getMessage());
         }
 
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateEvent(@PathVariable Long id,
-                             @RequestBody CreateEventDto dto){
+                                         @RequestBody CreateEventDto dto) {
         try {
             User user = userService.loadUserById(dto.getUserId());
             Stage stage = stageService.getByStageId(dto.getStageId());
@@ -83,16 +83,16 @@ public class EventController {
             performanceService.updatePerformancesForEvent(performersOnEvent, updatedEvent);
             return ResponseEntity.ok(updatedEvent);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Could not update event with id = " + id + ". \n" + e.getMessage());
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteEvent(@PathVariable Long id){
+    public ResponseEntity<?> deleteEvent(@PathVariable Long id) {
         try {
             return ResponseEntity.ok(eventService.deleteEventById(id));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Could not delete event with id = " + id + ". \n" + e.getMessage());
         }
     }
 }

@@ -1,7 +1,6 @@
 package rs.bg.ac.fon.elab.iteh.exit.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 import rs.bg.ac.fon.elab.iteh.exit.dto.TicketSaveDto;
 import rs.bg.ac.fon.elab.iteh.exit.mapper.TicketMapper;
@@ -13,7 +12,6 @@ import rs.bg.ac.fon.elab.iteh.exit.repository.TicketRepository;
 import rs.bg.ac.fon.elab.iteh.exit.repository.UserRepository;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 

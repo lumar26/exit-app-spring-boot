@@ -48,7 +48,7 @@ public class TicketController {
             );
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(400).body(e.getMessage());
+            return ResponseEntity.status(400).body("Could not save new ticket. \n" + e.getMessage());
         }
 
     }

@@ -34,7 +34,7 @@ public class PerformerController {
         try {
             return ResponseEntity.ok(performerService.getByPerformerId(id));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Could not retrieve performer with id = " + id + ". \n" + e.getMessage());
         }
     }
 
@@ -61,7 +61,7 @@ public class PerformerController {
         try {
             return ResponseEntity.ok(performerService.updatePerformer(id, newPerformer));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Could not update performer with id = " + id + ". \n" + e.getMessage());
         }
     }
 
@@ -70,7 +70,7 @@ public class PerformerController {
         try {
             return ResponseEntity.ok(performerService.deletePerformerById(id));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Could not delete performer with id = " + id + ". \n" + e.getMessage());
         }
     }
 

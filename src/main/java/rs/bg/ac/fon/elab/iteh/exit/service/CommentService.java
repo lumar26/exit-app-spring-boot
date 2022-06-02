@@ -40,4 +40,8 @@ public class CommentService {
         repository.deleteById(id);
         return optionalComment.get();
     }
+
+    public List<Comment> getAllComments() {
+        return repository.findAll();
+    }
 }

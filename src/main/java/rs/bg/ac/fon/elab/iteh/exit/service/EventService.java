@@ -3,8 +3,10 @@ package rs.bg.ac.fon.elab.iteh.exit.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import rs.bg.ac.fon.elab.iteh.exit.model.Event;
+import rs.bg.ac.fon.elab.iteh.exit.model.Performance;
 import rs.bg.ac.fon.elab.iteh.exit.model.User;
 import rs.bg.ac.fon.elab.iteh.exit.repository.EventRepository;
+import rs.bg.ac.fon.elab.iteh.exit.repository.PerformanceRepository;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -13,12 +15,12 @@ import java.util.Optional;
 @Service
 public class EventService {
     private final EventRepository repository;
-    private final PerformanceService performanceService;
+    private final PerformanceRepository performanceRepository;
 
     @Autowired
-    public EventService(EventRepository repository, PerformanceService performanceService) {
+    public EventService(EventRepository repository, PerformanceRepository performanceRepository) {
         this.repository = repository;
-        this.performanceService = performanceService;
+        this.performanceRepository = performanceRepository;
     }
 
     public Event getEventById(Long id) throws Exception {
@@ -50,6 +52,8 @@ public class EventService {
 
     @Transactional
     public Event deleteEventById(Long id) throws Exception {
+        List<Performance> performances = performanceRepository.getAllByEvent_Id(id);
+        performanceRepository.deleteAll(performances);
         Optional<Event> optionalStage = repository.findById(id);
         if (optionalStage.isEmpty())
             throw new Exception("Cannot delete event. Event with id = " + id + "does not exist");

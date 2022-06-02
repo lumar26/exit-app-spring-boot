@@ -30,7 +30,7 @@ public class StageController {
             return ResponseEntity.ok(stageService.getByStageId(id));
         } catch (Exception e) {
             System.err.println(e.getMessage());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Could not retrieve stage with id = " + id + ". \n" + e.getMessage());
         }
     }
 
@@ -50,7 +50,7 @@ public class StageController {
         try {
             return ResponseEntity.ok(stageService.updateStage(id, newStage));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Could not update stage with id = " + id + ". \n" + e.getMessage());
         }
     }
 
@@ -59,7 +59,7 @@ public class StageController {
         try {
             return ResponseEntity.ok(stageService.deleteStageById(id));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Could not delete stage with id = " + id + ". \n" + e.getMessage());
         }
     }
 }
