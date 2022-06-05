@@ -56,7 +56,7 @@ public class AuthController {
         User user = null;
         try {
             user = userService.registerUser(registerRequest);
-            return ResponseEntity.ok(new AuthenticationResponse(user.getId(), user.getUsername(), jwtUtil.generateToken(user), user.getRole().name()));
+            return ResponseEntity.ok(new AuthenticationResponse(user.getId(), user.getUsername(), user.getRole().name(), jwtUtil.generateToken(user)));
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(500).body(e.getMessage());
